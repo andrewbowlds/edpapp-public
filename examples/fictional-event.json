@@ -1,0 +1,34 @@
+{
+  "_comment": "FICTIONAL example of the notification document a Cloud Function writes to the agent queue when a maintenance request is created. All values are invented for illustration. Field shapes are representative, not a schema export. No real data.",
+  "notificationId": "ntf_example_0001",
+  "type": "new_maintenance_request",
+  "agentId": "pierce",
+  "createdAt": "2026-01-15T14:32:00.000Z",
+  "status": "unread",
+  "companyId": "company_demo",
+  "payload": {
+    "maintenanceRequestId": "mreq_example_0001",
+    "propertyId": "prop_example_0001",
+    "unitLabel": "Unit A",
+    "propertyAddress": "123 Example St, Anytown, IN",
+    "category": "plumbing",
+    "priority": "normal",
+    "summary": "Kitchen faucet dripping continuously",
+    "tenant": {
+      "tenantId": "usr_example_tenant_01",
+      "displayName": "Ada Lovelace",
+      "preferredContact": "sms"
+    },
+    "landlord": {
+      "landlordId": "usr_example_landlord_01",
+      "displayName": "Grace Hopper"
+    },
+    "assignedVendorId": null,
+    "photosCount": 2
+  },
+  "routing": {
+    "humansNotified": ["property_manager", "landlord", "tenant"],
+    "channel": ["email", "push"],
+    "escalationState": "pending_assignment"
+  }
+}

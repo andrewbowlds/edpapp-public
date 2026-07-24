@@ -1,0 +1,25 @@
+{
+  "_comment": "FICTIONAL illustration of the SHAPE of an AI-agent action and the audit-log entry it produces. All values are invented. This is not a real event, not a schema export, and not a description of any policy implementation. Field names are representative only.",
+  "agentAction": {
+    "agentId": "pierce",
+    "agentRole": "property_management",
+    "actionType": "vendor_coordination",
+    "maintenanceRequestId": "mreq_example_0001",
+    "vendorId": "vnd_example_0001",
+    "vendorDisplayName": "Example Plumbing Co.",
+    "summary": "Dripping faucet — standard cartridge replacement. In-network vendor available this week.",
+    "channel": "background_pipeline"
+  },
+  "auditLogEntry": {
+    "logId": "log_example_0001",
+    "timestamp": "2026-01-15T14:47:12.000Z",
+    "actor": "pierce",
+    "actorType": "ai_agent",
+    "action": "vendor.coordination_recorded",
+    "targetType": "maintenance_request",
+    "targetId": "mreq_example_0001",
+    "before": { "vendorAssigned": false },
+    "after": { "vendorAssigned": true }
+  },
+  "_note": "Audit logging of agent actions is implemented. Capability-scoped authorization, server-side policy enforcement, and human-approval controls are active areas of ongoing work — see docs/ai-agent-system.md. This example deliberately does not model any specific approval policy."
+}

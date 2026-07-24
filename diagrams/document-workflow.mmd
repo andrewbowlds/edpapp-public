@@ -1,0 +1,25 @@
+%% Document / e-signature workflow (as actually implemented)
+%% Sanitized: no real data, recipients, or documents.
+flowchart TD
+    Start([Agent needs a signed document]) --> Template{Template exists?}
+    Template -- No --> Upload["Upload form to shared library\n(edpadmin) + define signer roles"]
+    Template -- Yes --> Build
+    Upload --> OCR["OCR field detection\n(Tesseract.js, edpAgentNet)\nauto-maps fillable fields"]
+    OCR --> Build["Build e-sign packet\n(edpAgentNet)\nrecipients · fields · signing order"]
+
+    Build --> Handoff["Handoff to edpEuphoriSign\n(agent-authenticated route)"]
+    Handoff --> Invite["Send token-based invite\n(SendGrid) — no signer account"]
+
+    Invite --> Verify{Identity verification}
+    Verify -- "access code / OTP" --> Sign["Signer completes fields\n(signature · initial · text · date · checkbox)"]
+    Sign --> Order{More recipients\nin signing order?}
+    Order -- Yes --> Invite
+    Order -- No --> Queue["Finalization job enqueued"]
+
+    Queue --> Finalize["Background worker\n(Cloud Scheduler cron)\nflatten PDF via pdf-lib"]
+    Finalize --> Cert["Generate completion certificate"]
+    Cert --> Audit["Append to hash-chained audit trail\n(each entry hashes the previous)"]
+    Audit --> Notify["Notify parties (SendGrid)\nwith retry/backoff on failure"]
+    Notify --> Done([Finalized, tamper-evident document])
+
+    Notify -.bounce webhook.-> Monitor["Job-monitor health check\n+ bounce handling (signature-verified)"]

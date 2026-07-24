@@ -1,0 +1,28 @@
+%% AI-agent event flow — maintenance request example
+%% Sanitized: no real data, no operational internals (intervals, thresholds, or endpoint detail).
+sequenceDiagram
+    autonumber
+    participant T as Tenant
+    participant App as edpmanagement app
+    participant FS as Firestore
+    participant CF as Cloud Function (Firestore trigger)
+    participant Q as Agent notification pipeline
+    participant Sched as Scheduled escalation
+    participant P as Pierce (AI property-management agent)
+    participant H as Human (property mgr / owner)
+
+    T->>App: Submit maintenance request
+    App->>FS: Create maintenance record
+    FS-->>CF: Trigger fires
+    CF->>H: Notify human stakeholders (email / push)
+    CF->>Q: Route a notification into the agent pipeline
+    Note over CF,Q: Decoupled — the trigger completes regardless of agent availability
+
+    P->>Q: Consume from the pipeline
+    P->>App: Act within the property-management workflow
+    Note over P,App: Agent actions are recorded to audit logs
+
+    Sched->>H: Escalate requests that go stale
+    Note over Sched,H: Responsibility is partitioned between escalation paths<br/>to prevent duplicate action
+
+    Note over T,H: Ongoing work: capability-scoped authorization,<br/>server-side policy enforcement, and human-approval controls

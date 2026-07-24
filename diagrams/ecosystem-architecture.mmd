@@ -1,0 +1,93 @@
+%% EDP Ecosystem — full architecture
+%% Sanitized: no real project IDs, URLs, credentials, or infrastructure hostnames.
+flowchart TB
+    subgraph Users["Users"]
+        direction LR
+        Public["Public / leads / buyers / sellers"]
+        Agents["Agents"]
+        Landlords["Landlords"]
+        Tenants["Tenants"]
+        Vendors["Vendors"]
+    end
+
+    subgraph WebApps["Web applications — Next.js + React + TypeScript"]
+        direction LR
+        Main["edpmain\npublic site + lead capture\n+ production Stripe checkout"]
+        AgentNet["edpAgentNet\nCRM · transactions · OCR\n· e-sign packets · AI comms"]
+        Mgmt["edpmanagement\nproperties · leases · tenants\n· landlords · vendors · maintenance"]
+        Admin["edpadmin\nuser provisioning · roles\n· form library · activity log"]
+        Billing["edpbilling\ninvoices · bills · ledger\n· Plaid bookkeeping"]
+        Esign["edpEuphoriSign\nsigner UX · PDF finalize\n· hash-chained audit"]
+    end
+
+    subgraph MobileApps["Mobile — native"]
+        iOS["iOS (Swift/SwiftUI)\nTestFlight distribution"]
+        Android["Android (Kotlin/Compose)\nlimited internal use"]
+    end
+
+    subgraph Backend["Google Cloud / Firebase — single shared project"]
+        Firestore[("Firestore\nshared database\nrules-based authorization")]
+        Auth[("Firebase Auth\ncustom claims\n(migration in progress)")]
+        Storage[("Cloud Storage")]
+        Functions[("Cloud Functions v2\ntriggers · scheduled · callable")]
+        Hosting[("Firebase App Hosting\nCloud Run-backed, per-app sizing")]
+    end
+
+    subgraph AI["AI / LLM"]
+        Genkit[("Genkit + Gemini\nin-app AI flows")]
+        OpenAI[("OpenAI\nrealtime voice · TTS · transcription")]
+        ExtRuntime[("Agent runtime\nSMS/email reasoning\n(outside the application repo)")]
+    end
+
+    subgraph ThirdParty["Third-party services"]
+        Stripe[("Stripe\ninvoice checkout (live)\n+ rent charge & Connect\ndisbursements (production-capable)")]
+        Plaid[("Plaid\nbank linking + tx import")]
+        Twilio[("Twilio\nvoice + SMS")]
+        SendGrid[("SendGrid\ntransactional email")]
+        ExtPM[("Third-party PM platform\nreconciliation source")]
+    end
+
+    subgraph OpsTooling["Internal operator tooling — custom MCP services"]
+        FSMcp["Firestore MCP\nstaged access modes\n+ approval for destructive ops"]
+        ScopedMcp["permission-scoped variant\nscoped access + field redaction"]
+        ExtMcp["External PM-platform MCP\nreconciliation bridge"]
+    end
+
+    Public --> Main
+    Agents --> AgentNet
+    Landlords --> Mgmt
+    Tenants --> Mgmt
+    Vendors --> Mgmt
+    Agents --> iOS
+    Landlords --> iOS
+    Tenants --> iOS
+
+    Main & AgentNet & Mgmt & Admin & Billing & Esign --> Firestore
+    Main & AgentNet & Mgmt & Admin & Billing & Esign --> Auth
+    Main & AgentNet & Mgmt & Admin & Billing & Esign --> Hosting
+    Mgmt & Esign --> Storage
+    Mgmt & Billing --> Functions
+    Functions --> Firestore
+    Functions --> SendGrid
+
+    iOS -.API calls.-> AgentNet
+    iOS -.API calls.-> Mgmt
+    iOS -.API calls.-> Billing
+    Android -.API calls.-> AgentNet
+    iOS & Android --> Firestore
+    iOS & Android --> Auth
+
+    Admin & Billing & Mgmt & AgentNet --> Genkit
+    AgentNet --> OpenAI
+    AgentNet --> Twilio
+    AgentNet -.SMS/email handoff.-> ExtRuntime
+    ExtRuntime -.consumes agent pipeline.-> Firestore
+
+    Main & Mgmt & Billing --> Stripe
+    AgentNet & Mgmt & Billing --> Plaid
+    Mgmt & Esign & Billing --> SendGrid
+
+    FSMcp --> Firestore
+    FSMcp --> Storage
+    ScopedMcp --> Firestore
+    ExtMcp -.syncs.-> ExtPM

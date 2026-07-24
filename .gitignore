@@ -1,0 +1,51 @@
+# This repo should contain ONLY sanitized docs, diagrams, and fictional examples.
+# These patterns are defense-in-depth so nothing sensitive is ever committed by accident.
+
+# Secrets / credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.keystore
+*service-account*.json
+*serviceAccount*.json
+*private-key*.json
+*credentials*.json
+*.credentials
+.npmrc
+
+# Data exports / dumps / backups that could contain real records
+*export*.json
+*backup*.json
+*dump*.json
+*snapshot*.json
+exports/
+backups/
+dumps/
+data/
+TEST_DATA/
+
+# Logs
+*.log
+LOGS/
+logs/
+
+# Unredacted screenshots — images must be human-reviewed before committing.
+# Remove or narrow this if you deliberately add a reviewed, redacted screenshot.
+images/*.png
+images/*.jpg
+images/*.jpeg
+images/*.gif
+images/*.webp
+!images/README.md
+
+# OS / editor / tooling cruft
+.DS_Store
+Thumbs.db
+node_modules/
+.vscode/
+.idea/
+.firebase/
+firebase-debug.log
