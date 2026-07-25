@@ -12,8 +12,8 @@ If you find anything in this repository that looks like it might be real (a cred
 
 I'll investigate and remove the content promptly. See [`SECURITY_REVIEW.md`](SECURITY_REVIEW.md) for the audit process this repository went through before publication, and what it specifically checked for.
 
-## Reporting a vulnerability in the live EDP Realty systems
+## Reporting a vulnerability in the live Euphoric Development Partners systems
 
-If you've found a security issue in the actual production EDP Realty platform (not this documentation repository), please do not test further or attempt to access data beyond what's needed to demonstrate the issue. Report it privately through GitHub's vulnerability-reporting feature after publication or contact me through [LinkedIn](https://www.linkedin.com/in/andrew-bowlds-122875125/).
+If you've found a security issue in the actual production Euphoric Development Partners platform (not this documentation repository), please do not test further or attempt to access data beyond what's needed to demonstrate the issue. Report it privately through GitHub's vulnerability-reporting feature or contact me through [LinkedIn](https://www.linkedin.com/in/andrew-bowlds-122875125/).
 
 I'll acknowledge reports and work on a fix; this is a small, operator-run system without a formal bug-bounty program, but genuine reports are taken seriously and I'll respond personally.

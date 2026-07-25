@@ -56,7 +56,7 @@ Operationally sensitive implementation and security details were removed and rep
 ## Deliberate inclusions (reviewed, judged safe)
 
 - **The owner's real name** — a portfolio piece; the author identifying themselves is the point. Present in the README positioning statement and the LICENSE copyright line.
-- **The business name (EDP Realty)** — already-public information a brokerage advertises. No street addresses anywhere.
+- **The business name (Euphoric Development Partners, abbreviated EDP)** — already-public information the brokerage advertises. No street addresses anywhere.
 - **Subproject / module names** (`edpmain`, `edpAgentNet`, etc.) — internal module names, not hosts, endpoints, or secrets.
 - **The agent name "Pierce"** — a product persona name, not a credential or PII.
 - **Approximate user counts** — aggregate, non-identifying business scale.

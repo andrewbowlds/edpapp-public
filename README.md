@@ -8,13 +8,13 @@
 
 ## Positioning
 
-I'm Andrew Bowlds — a managing broker who conceived, directed, and operates **EDP Realty**, a real-estate brokerage and property-management business, along with the software ecosystem that runs it. I'm looking for **delivery-focused, non-quota-carrying roles across AI deployment, implementation, deployed product, adoption, technical program management, and technical success**. I'm comfortable working directly with customers on discovery, workshops, demonstrations, pilots, solution design, delivery, and adoption when the company supplies the customer relationships and scheduled engagements. My best fit is helping customers solve operational problems—not cold outreach, self-generated pipeline, or commission-based sales.
+I'm Andrew Bowlds — a managing broker who conceived, directed, and operates **Euphoric Development Partners (EDP)**, a real-estate brokerage and property-management business, along with the software ecosystem that runs it. I'm looking for **delivery-focused, non-quota-carrying roles across AI deployment, implementation, deployed product, adoption, technical program management, and technical success**. I'm comfortable working directly with customers on discovery, workshops, demonstrations, pilots, solution design, delivery, and adoption when the company supplies the customer relationships and scheduled engagements. My best fit is helping customers solve operational problems—not cold outreach, self-generated pipeline, or commission-based sales.
 
 For several years I've run real-estate operations as a broker. Since **April 2025** I've been designing and building the software platform described here: six interconnected web applications plus native mobile clients, deployed and receiving regular updates, running the day-to-day operations of the business. I conceived the product, identified the business problems and users, defined the requirements and workflows, and directed the architecture and integrations. I used AI coding assistants in VS Code for much of the line-by-line implementation, working from my own specifications — and I reviewed, tested, troubleshot, deployed, and operate every part of it. See [My Role & Methodology](#my-role--ai-assisted-development-methodology) for the honest version of that, including where I've learned the most.
 
 ## The Business Problem
 
-EDP Realty is a small brokerage and property-management company. Like most independent brokerages, it faced a stack of overlapping problems that off-the-shelf SaaS tools solve individually but not together:
+EDP is a small brokerage and property-management company. Like most independent brokerages, it faced a stack of overlapping problems that off-the-shelf SaaS tools solve individually but not together:
 
 - Lead capture, marketing, and SEO for the public-facing brokerage
 - Agent CRM and transaction/deal management, with the paperwork-heavy compliance trail real-estate transactions require
