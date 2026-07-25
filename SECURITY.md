@@ -2,7 +2,7 @@
 
 ## What this repository is
 
-This repository is a **sanitized public technical overview**, published for portfolio purposes. It contains documentation, Mermaid diagrams, and fictional example data describing the design of a private production system (the "EDP ecosystem"). It does not contain that system's source code, credentials, infrastructure configuration, or any real user data.
+This repository is a **sanitized public technical overview**. It contains documentation, Mermaid diagrams, and fictional example data describing the design of a private production system (the "EDP ecosystem"). It does not contain that system's source code, credentials, infrastructure configuration, or any real user data.
 
 There is nothing in this repository to exploit — no running application, no API, no dependencies with a supply chain to attack. This file exists mainly so the repository has a normal, complete security posture, and to give a reporting path in the unlikely event someone finds something in here that shouldn't be public.
 

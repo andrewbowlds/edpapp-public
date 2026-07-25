@@ -10,7 +10,7 @@ This report documents the security review performed on this repository. It also 
 
 This repository was authored from scratch as sanitized documentation. **No files were copied from the private production repository**, which was treated as strictly read-only and used only to verify facts. Every file here is original prose, diagrams, or clearly fictional example data.
 
-A revision pass then (a) corrected material claims against the private implementation, and (b) removed operationally sensitive detail — replacing enumerated weaknesses with higher-level language about ongoing work, on the principle that a public portfolio document should not double as an operational map of a live system.
+A revision pass then (a) corrected material claims against the private implementation, and (b) removed operationally sensitive detail — replacing enumerated weaknesses with higher-level language about ongoing work, on the principle that public documentation should not double as an operational map of a live system.
 
 ## Checklist results
 
@@ -55,7 +55,7 @@ Operationally sensitive implementation and security details were removed and rep
 
 ## Deliberate inclusions (reviewed, judged safe)
 
-- **The owner's real name** — a portfolio piece; the author identifying themselves is the point. Present in the README positioning statement and the LICENSE copyright line.
+- **The owner's real name** — authorship is intentionally public. Present in the README positioning statement and the LICENSE copyright line.
 - **The business name (Euphoric Development Partners, abbreviated EDP)** — already-public information the brokerage advertises. No street addresses anywhere.
 - **Subproject / module names** (`edpmain`, `edpAgentNet`, etc.) — internal module names, not hosts, endpoints, or secrets.
 - **The agent name "Pierce"** — a product persona name, not a credential or PII.

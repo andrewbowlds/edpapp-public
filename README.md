@@ -1,6 +1,6 @@
 # EDP Ecosystem — Public Technical Overview
 
-**A sanitized technical overview of a production real-estate operations platform, written for engineering hiring managers.**
+**A sanitized technical overview of a production real-estate operations platform.**
 
 > ⚠️ **This is not the production repository.** It contains no application source code, no credentials, no customer data, and no infrastructure details. Everything here is original prose, diagrams, and clearly fictional example data written to explain *how* the real system is built and *why*, at a level safe for public viewing. See [`SECURITY_REVIEW.md`](SECURITY_REVIEW.md) for the audit performed before publication.
 

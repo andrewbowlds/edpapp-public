@@ -1,6 +1,6 @@
 # Lessons Learned
 
-Real ones, from building and operating a production system since April 2025 where much of the code was AI-generated. These are the stories I'd actually tell in an interview. All specifics are stripped of identifying detail, and issues described here have been resolved — I'm writing about what I learned, not publishing a map of current weak points.
+These lessons come from building and operating a production system since April 2025 where much of the code was AI-generated. All specifics are stripped of identifying detail, and issues described here have been resolved. The purpose is to document what changed and why without publishing a map of current weak points.
 
 ## Coordination bugs live in the seams
 
