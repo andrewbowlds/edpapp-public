@@ -1,14 +1,14 @@
-# Security Review — Pre-Publication Audit
+# Security Review — Public Repository Audit
 
 **Repository:** `edpapp-public`
 **Audit date:** 2026-07-24 (revised)
-**Status:** Prepared for owner review. **No Git repository initialized. Nothing published. No remote created. No visibility changed.**
+**Status:** Published. The current public contents were reviewed through GitHub's signed-out view on 2026-07-24.
 
 This report documents the security review performed on this repository. It also records the accuracy revision pass in which payment claims, deployment claims, and AI-agent safety language were corrected and de-risked.
 
 ## Method
 
-This repository was authored from scratch as sanitized documentation. **No files were copied from the private source repository** (`/Users/ajbowlds/edpapp`), which was treated as strictly read-only and used only to verify facts. Every file here is original prose, diagrams, or clearly fictional example data.
+This repository was authored from scratch as sanitized documentation. **No files were copied from the private production repository**, which was treated as strictly read-only and used only to verify facts. Every file here is original prose, diagrams, or clearly fictional example data.
 
 A revision pass then (a) corrected material claims against the private implementation, and (b) removed operationally sensitive detail — replacing enumerated weaknesses with higher-level language about ongoing work, on the principle that a public portfolio document should not double as an operational map of a live system.
 
@@ -26,7 +26,7 @@ A revision pass then (a) corrected material claims against the private implement
 | 8 | Real property / street addresses | **PASS** — none. Example uses `123 Example St, Anytown, IN`. |
 | 9 | Internal URLs / hostnames / project IDs | **PASS** — none. No real domains, no Cloud Run / Firebase Storage / RTDB hosts, no admin hostnames, no agent-runtime host paths, no Firebase project ID. |
 | 10 | Symlinks | **PASS** — none. |
-| 11 | Imported Git history | **PASS** — this directory is **not a Git repository**; no history of any kind exists or was imported. |
+| 11 | Imported Git history | **PASS** — the public repository contains only the history created for this sanitized documentation; no history from the private production repository was imported. |
 | 12 | `.env` / credential files | **PASS** — none present. |
 | 13 | `.gitignore` coverage | **PASS** — covers environment files, private keys, credential JSON, data exports/dumps/backups, logs, and (defensively) all image formats in `images/` except the README, so an un-reviewed screenshot cannot be committed by accident. |
 | 14 | **Exploit-relevant operational detail** | **PASS after revision** — operationally sensitive detail was removed and replaced with high-level descriptions of ongoing hardening priorities. |
@@ -83,6 +83,4 @@ find . -type l
 
 ## Conclusion
 
-The repository contains no credentials, no real personal or customer data, no production identifiers, and no enumerated operational weaknesses. Material claims have been corrected against the private implementation, and features are labeled Live / Production-capable / Partial / Planned so that nothing reads as more deployed than it is. It is safe for the owner to review and, at the owner's sole discretion, publish.
-
-**No Git repository was initialized. No remote was created. Nothing was committed, pushed, or published, and no visibility was changed.**
+The repository contains no credentials, no real personal or customer data, no production identifiers, and no enumerated operational weaknesses. Material claims have been corrected against the private implementation, and features are labeled Live / Production-capable / Partial / Planned so that nothing reads as more deployed than it is. The current contents are approved for continued public use, subject to re-review after future changes.
