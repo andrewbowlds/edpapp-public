@@ -121,11 +121,12 @@ Full detail in [`ai-agent-system.md`](ai-agent-system.md).
 |---|---|
 | Pierce voice agent (OpenAI, live phone, tool-calling) | Live |
 | Pierce SMS / email | Live — conversational reasoning runs in an agent runtime outside the application repo |
+| Brett SMS transaction coordination | Live — verified from conversational intake through transaction creation and sent e-sign packet |
 | Event → agent pipeline (Cloud Functions) | Live on the producing side |
 | Time-based escalation for stale requests | Live |
 | Audit logging of agent actions | Live |
 | Capability-scoped authorization, server-side policy enforcement, human-approval controls | **Active priorities** — being strengthened; not presented as complete |
-| Count of production AI agents beyond Pierce | **Not claimed** — the architecture supports additional specialized roles; Pierce is the agent operating today |
+| Additional agent concepts beyond Pierce and Brett | **Not claimed** — design concepts are not presented as deployed roles |
 
 ## Internal operator tooling status
 
