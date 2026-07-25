@@ -1,6 +1,6 @@
 # Screenshots
 
-This folder is intentionally empty of screenshots. **Do not add a screenshot until it has been redacted or recreated with fictional data**, following the checklist below. A single un-redacted screenshot can leak more private data than all the prose in this repo combined.
+This folder contains only screenshots that were recreated or captured with fictional data and then visually reviewed against the checklist below. **Do not add another screenshot until it has been redacted or recreated with fictional data.** A single un-redacted screenshot can leak more private data than all the prose in this repo combined.
 
 ## The rule
 
@@ -36,6 +36,12 @@ These would strengthen the overview without adding risk. Suggested filenames so 
 | `billing-invoice.png` | An invoice with line items | Fictional customer, fake amounts, fake invoice number |
 | `mobile-home.png` | The iOS app role-based home screen | Demo account login; scrub the status bar if it shows anything |
 | `architecture-rendered.png` | A rendered version of `diagrams/ecosystem-architecture.mmd` | No redaction needed — it's already sanitized |
+
+## Current reviewed screenshots
+
+| File | Contents | Review notes |
+|---|---|---|
+| `brett-demo-transaction.jpg` | Fictional transaction created during the controlled Brett workflow test | Cropped to page content; no browser chrome, internal IDs, real people, real property, financial amount, or production recipient data |
 
 ## After adding any screenshot
 
