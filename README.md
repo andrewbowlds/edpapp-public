@@ -39,6 +39,14 @@ This is a deployed production system running one real brokerage's operations. It
 
 Plus the public/marketing surface, which handles inbound leads and applicants on an ongoing basis. These figures describe current usage, not capacity. The broader vendor directory contains approximately 110 records, with approximately 40 marked active; about 20 vendors have received dispatched work or actively participate in EDP workflows. Those figures measure different levels of engagement rather than conflicting user counts.
 
+## Verified Leasing Activity
+
+A Firestore review of **June 1-30, 2026** found **288 rental-inquiry records representing approximately 214 distinct prospects** after normalizing and matching shared phone, email, conversation, and thread identifiers. The inquiry records came from RentSpree (117), Zillow (71), phone (50), Facebook (48), and two records carrying combined RentSpree/Zillow attribution.
+
+Matching those prospects against Pierce's communication histories identified **588 logged interactions**: 421 SMS messages (279 outbound and 142 inbound), 121 voice conversations, and 46 email messages. At least **115 distinct June prospects** had a directly matched Pierce communication. That is a conservative lower bound because some Zillow and Facebook conversations do not share a stable phone, email, or lead identifier with the central lead record.
+
+EDP automates the **pre-application leasing journey** rather than replacing the screening provider: Pierce receives inquiries from multiple channels, directs prospects to a unit-specific prescreening page, invites qualified prospects to schedule a self-guided tour, supports location-verified check-in and lockbox access, and conducts follow-up. Prospects who choose to apply are sent to a unique **RentSpree** link for the application and background check.
+
 ## System Overview
 
 Six web applications sharing one Firebase/Firestore backend, plus native mobile clients and a set of custom MCP (Model Context Protocol) services used for internal operations. Cross-app communication is primarily direct, scoped Firestore access governed by security rules, plus a handful of HTTP endpoints (user provisioning, activity logging, magic-link SSO, push-token registration).
