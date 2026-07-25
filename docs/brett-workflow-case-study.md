@@ -39,6 +39,10 @@ The observed workflow was:
 
 Firestore records independently confirmed the transaction, the Brett-filled form record, and the sent packet. The demonstration uses no real client or property information.
 
+![Fictional transaction created through the Brett workflow](../images/brett-demo-transaction.jpg)
+
+*Sanitized AgentNet view of the fictional transaction created during the controlled test. Browser chrome, internal identifiers, and real customer data are excluded.*
+
 ## Document dependency demonstrated by the test
 
 The initial fictional request also mentioned a lead-based-paint disclosure. The correct result was **not** to create one.
