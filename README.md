@@ -129,13 +129,29 @@ The distinction I want to be clear about: rent collection is a *production-capab
 
 ## AI & Automation
 
-The most distinctive part of the system is **Pierce**, an AI property-management agent that communicates on the business's behalf by phone, text, and email, and that responds to operational events (such as new maintenance requests) with actions taken against authorized operational data. Pierce is built on OpenAI's real-time/voice capabilities for phone conversations, with a supporting event pipeline:
+The system uses specialized agents for distinct operational jobs rather than one general-purpose chatbot.
+
+### Pierce — leasing and property-management operations
+
+**Pierce** is an AI property-management agent that communicates on the business's behalf by phone, text, and email, and that responds to operational events (such as new maintenance requests) with actions taken against authorized operational data. Pierce is built on OpenAI's real-time/voice capabilities for phone conversations, with a supporting event pipeline:
 
 - **Event triggers**: Firestore-triggered Cloud Functions fire when relevant records (maintenance requests, applications, tours) are created
 - **Context**: the agent works from a notification pipeline and scoped access to operational data
 - **Human-in-the-loop**: the system includes ongoing work to strengthen capability-scoped authorization, server-side policy enforcement, and human-approval controls — I describe these as active priorities rather than finished features in [`docs/ai-agent-system.md`](docs/ai-agent-system.md)
 
-The architecture is designed to support additional specialized agent roles beyond Pierce; Pierce is the one operating in the property-management workflow today. I deliberately do not claim a specific count of production agents — see the AI-agent doc for how I distinguish what's deployed from what's designed-for.
+### Brett — conversational transaction coordination
+
+**Brett** lets a human real-estate agent initiate transaction paperwork by SMS instead of returning to a desktop. The agent can describe what is needed, answer Brett's follow-up questions, and have the system prepare selected forms, assemble a multi-document packet, and route it through EDP's in-house e-signature workflow. Examples include buyer-agency documents, agency policies, lead-based-paint disclosures, seller disclosures, and related transaction forms.
+
+This is a workflow-orchestration system, not legal advice or an autonomous substitute for the licensed agent. The human agent remains responsible for the transaction instructions, required documents, and accuracy of the resulting packet.
+
+A July 2026 Firestore audit verified the complete technical path:
+
+- **178 Brett-attributed SMS records** (57 inbound and 121 outbound) and **46 inbound queue items**, demonstrating a working two-way SMS channel
+- **Three e-sign packets created through Brett's prepare-and-send path**: two completed and one sent
+- **One form record explicitly filled by Brett**
+
+Those figures are evidence of an operating end-to-end workflow, not a customer-volume claim. The SMS history includes development and rollout traffic, and one of the three packets is explicitly test-addressed.
 
 Separately, custom MCP (Model Context Protocol) services are used internally to operate business data and a third-party property-management platform through an AI assistant, with scoped access controls. This is internal operator tooling, not an end-user product.
 
