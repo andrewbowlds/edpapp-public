@@ -141,15 +141,18 @@ The system uses specialized agents for distinct operational jobs rather than one
 
 ### Brett — conversational transaction coordination
 
-**Brett** lets a human real-estate agent initiate transaction paperwork by SMS instead of returning to a desktop. The agent can describe what is needed, answer Brett's follow-up questions, and have the system prepare selected forms, assemble a multi-document packet, and route it through EDP's in-house e-signature workflow. Examples include buyer-agency documents, agency policies, lead-based-paint disclosures, seller disclosures, and related transaction forms.
+**Brett** lets a human real-estate agent initiate transaction paperwork by SMS instead of returning to a desktop. The agent can describe what is needed, answer Brett's follow-up questions, and have the system prepare eligible forms, assemble a multi-document packet, and route it through EDP's in-house e-signature workflow. Examples include buyer-agency documents, agency policies, seller disclosures, and related transaction forms whose required source documents and approvals already exist.
 
-This is a workflow-orchestration system, not legal advice or an autonomous substitute for the licensed agent. The human agent remains responsible for the transaction instructions, required documents, and accuracy of the resulting packet.
+The workflow respects document dependencies. For example, a buyer-side lead-based-paint acknowledgment is not something Brett should invent from a buyer's request: the listing side must first supply the seller-completed disclosure stating the seller's knowledge and available records, after which the buyer can acknowledge receipt. In a recorded fictional test with no listing-side disclosure, Brett correctly excluded that document rather than generating an unsupported form.
+
+This is a workflow-orchestration system, not legal advice or an autonomous substitute for the licensed agent. The human agent remains responsible for the transaction instructions, required documents, source-document availability, and accuracy of the resulting packet. See the detailed [`Brett workflow case study`](docs/brett-workflow-case-study.md).
 
 A July 2026 Firestore audit verified the complete technical path:
 
 - **178 Brett-attributed SMS records** (57 inbound and 121 outbound) and **46 inbound queue items**, demonstrating a working two-way SMS channel
 - **Three e-sign packets created through Brett's prepare-and-send path**: two completed and one sent
 - **One form record explicitly filled by Brett**
+- **One controlled end-to-end fictional test** recorded from SMS request through transaction creation and sent e-sign packet
 
 Those figures are evidence of an operating end-to-end workflow, not a customer-volume claim. The SMS history includes development and rollout traffic, and one of the three packets is explicitly test-addressed.
 
@@ -227,7 +230,8 @@ edpapp-public/
 ├── SECURITY_REVIEW.md             # pre-publication security audit of this repo
 ├── docs/
 │   ├── architecture.md
-│   ├── ai-agent-system.md         # Pierce, described at a safe level
+│   ├── ai-agent-system.md         # Pierce and Brett, described at a safe level
+│   ├── brett-workflow-case-study.md
 │   ├── engineering-decisions.md
 │   ├── security-and-privacy.md
 │   ├── testing-and-operations.md

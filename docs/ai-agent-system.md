@@ -1,4 +1,4 @@
-# AI-Agent System — Pierce
+# AI-Agent System — Pierce and Brett
 
 This document describes the AI-agent side of the system at an architectural level. It intentionally keeps to *what the system does and how it's structured*, and describes safety work as active priorities rather than enumerating specific weaknesses — a public overview is not the place to publish an operational map of a live system's soft spots.
 
@@ -14,11 +14,14 @@ Pierce is not a single monolithic component; it's a persona implemented across a
 
 One honest scoping note for a technical reader: the **voice agent's model dependency (OpenAI) is implemented directly in the application code**, while the reasoning for SMS/email and longer-running background decisions runs in a separate agent runtime that is not part of the application repository. So the publicly-describable, in-app portion is the voice agent and the event pipeline that feeds the agent; the conversational reasoning for other channels lives in a component outside that codebase. I flag this because it changes what any reader can actually verify from source.
 
-## Pierce and the broader agent design
+## Specialized agent roles
 
-The system's architecture is designed to support **additional specialized agent roles** beyond property management (for example, roles oriented around lead follow-up or transaction coordination). Today, **Pierce is the agent operating in the property-management workflow**, and it is the only agent I describe as production-operating here.
+The system uses specialized roles rather than presenting one general-purpose agent as responsible for every workflow:
 
-I deliberately **do not claim a specific number of production AI agents.** Internal documents describe a roster of *possible* agent roles as a capability concept, but that is design intent, not a count of deployed, production-operating personas — and I'm not going to present design intent as deployment. Pierce is the concrete, documented one.
+- **Pierce** operates in leasing and property-management communications through voice, SMS, email, and event-driven work.
+- **Brett** coordinates transaction paperwork conversationally by SMS, gathers missing terms, prepares eligible forms, and routes packets through EDP's e-signature workflow.
+
+Both are supported by operating records. I do not turn internal concepts for other possible agent roles into deployment claims. Brett's verified transaction path and document-dependency behavior are described in the [`Brett workflow case study`](brett-workflow-case-study.md).
 
 ## End-to-end event flow: a maintenance request
 
@@ -75,8 +78,9 @@ The roles I'm targeting are the ones where someone has to look at an AI system t
 |---|---|
 | Pierce voice agent (OpenAI, live phone, tool-calling) | Live — in-app implementation, latency-instrumented |
 | Pierce SMS / email | Live — conversational reasoning runs in an agent runtime outside the application repo |
+| Brett SMS transaction coordination | Live — verified from SMS intake through transaction creation and sent e-sign packet |
 | Event → agent pipeline (Cloud Functions) | Live on the producing side; the agent consumes from it |
 | Time-based escalation for stale requests | Live |
 | Audit logging of agent actions | Live |
 | Capability-scoped authorization, server-side policy enforcement, human-approval controls | Active priorities — being strengthened, not presented as complete |
-| Number of production AI agents beyond Pierce | Not claimed — architecture supports additional roles; Pierce is the one operating today |
+| Additional agent concepts beyond Pierce and Brett | Not claimed — design concepts are not presented as deployed roles |
