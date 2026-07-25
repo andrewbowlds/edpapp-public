@@ -50,7 +50,7 @@ Operationally sensitive implementation and security details were removed and rep
 | Third-party rent platform | Named explicitly | **Genericized** to "third-party property-management platform" at owner's request — vendor name removed from all files and diagrams |
 | E-signatures | "legally binding" | "Audit-grade, tamper-evident" with ESIGN-consent capture; legal enforceability not claimed |
 | Timeline | "more than a year of production operation"; "last several years" of this work | Development began **April 2025**; several years of prior business/real-estate operations experience stated separately |
-| User scope | Included inferred vendor-directory nuance | Operator + 5 agents, ~10 landlords, ~20 tenants. **Vendor count corrected against a direct read-only Firestore aggregate query**: ~110 directory records with ~40 flagged active — the earlier "~20" figure was not supported by the data. Stated as two measures rather than one number, since directory size and active flag measure different things. No vendor records, names, or IDs were read or reproduced — counts only. |
+| User scope | Treated different vendor measures as conflicting counts | Operator + 5 agents, ~10 landlords, ~20 tenants, and **about 20 operationally engaged vendors** who have received dispatched work or actively participate in EDP workflows. A read-only aggregate also identified ~110 vendor-directory records with ~40 flagged active. These figures measure directory size, internal status, and actual operational engagement respectively. No vendor records, names, or IDs were reproduced. |
 | Test coverage | Exact per-app file counts | Relative coverage levels, with gaps stated as priorities |
 
 ## Deliberate inclusions (reviewed, judged safe)

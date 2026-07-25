@@ -35,9 +35,9 @@ This is a deployed production system running one real brokerage's operations. It
 | Real-estate agents | 5 | Using the CRM/transaction system |
 | Landlords | ~10 | Property owners in the property-management app |
 | Tenants | ~20 | Renters with leases and ledgers |
-| Vendors | ~110 directory records (~40 flagged active) | Service providers; a smaller subset receives dispatched work |
+| Vendors | ~20 operationally engaged | Service providers who have received dispatched work or actively participate in EDP workflows |
 
-Plus the public/marketing surface, which handles inbound leads and applicants on an ongoing basis. These figures describe current usage, not capacity. The vendor figure is deliberately split between directory size and active flag rather than quoted as a single number, because those measure different things.
+Plus the public/marketing surface, which handles inbound leads and applicants on an ongoing basis. These figures describe current usage, not capacity. The broader vendor directory contains approximately 110 records, with approximately 40 marked active; about 20 vendors have received dispatched work or actively participate in EDP workflows. Those figures measure different levels of engagement rather than conflicting user counts.
 
 ## System Overview
 
