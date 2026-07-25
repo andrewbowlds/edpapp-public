@@ -22,7 +22,7 @@ An organization-level isolation concept (relevant to a possible future multi-org
 
 ## Internal tooling designed with least privilege
 
-The internal MCP tooling used to operate business data through an AI assistant was built **with access controls in mind**: staged read/write/approve modes, an approval step for destructive operations, and — in a permission-scoped variant intended for restricted access — collection-level access restrictions plus field-level redaction of sensitive values before any data is returned to the assistant. I describe this at the level of "designed with least-privilege controls" rather than publishing its configuration; the point for a hiring manager is that scoping an AI agent's data access was treated as a design requirement, not an afterthought.
+The internal MCP tooling used to operate business data through an AI assistant was built **with access controls in mind**: staged read/write/approve modes, an approval step for destructive operations, and — in a permission-scoped variant intended for restricted access — collection-level access restrictions plus field-level redaction of sensitive values before any data is returned to the assistant. This is described at the level of "designed with least-privilege controls" rather than publishing its configuration; scoping an AI agent's data access was treated as a design requirement, not an afterthought.
 
 ## Audit trails
 
@@ -35,7 +35,7 @@ The property-management app — the highest-risk app, because it governs tenant/
 
 ## Security-relevant priorities (stated honestly)
 
-Rather than publish a list of specific gaps, I'll state the direction of the work, which is what a hiring manager actually needs to know I can reason about:
+Rather than publish a list of specific gaps, this section states the direction of the work:
 
 - **Strengthening capability-scoped authorization and server-side policy enforcement** for the AI-agent system — moving important business constraints and approval steps into application-code enforcement — is the top priority.
 - **Completing the authorization-model migration** and retiring the compatibility layer.

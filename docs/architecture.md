@@ -1,6 +1,6 @@
 # Architecture
 
-This document describes the verified architecture of the EDP ecosystem at a level useful to an engineering hiring manager. It intentionally omits operational specifics that don't belong in a public overview: real URLs, project IDs, document IDs, collection contents, credential names/values, and internal infrastructure hostnames.
+This document describes the verified architecture of the EDP ecosystem at a level useful for technical review. It intentionally omits operational specifics that don't belong in a public overview: real URLs, project IDs, document IDs, collection contents, credential names/values, and internal infrastructure hostnames.
 
 ## Shape of the system
 

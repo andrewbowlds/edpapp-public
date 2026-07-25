@@ -1,6 +1,6 @@
 # Testing & Production Operations
 
-Written the same honest way as the rest of this repo: the testing story here is genuine but uneven, and I think an accurate picture is more useful to a hiring manager than a polished one.
+The testing story is genuine but uneven. An accurate description is more useful than a polished one.
 
 ## Testing coverage
 
@@ -17,7 +17,7 @@ Approximate automated test coverage per app:
 
 ## The testing that matters most
 
-The property-management app's **security-rules tests are the piece I'd point a hiring manager at first.** They:
+The property-management app's **security-rules tests are the strongest part of the current automated coverage.** They:
 
 - Load the actual authorization rules into the Firebase Firestore emulator
 - Assert concrete role/ownership scenarios with explicit pass/fail expectations
