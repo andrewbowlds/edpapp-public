@@ -1,16 +1,16 @@
 # Security Review — Public Repository Audit
 
 **Repository:** `edpapp-public`
-**Audit date:** 2026-07-24 (revised)
-**Status:** Published. The current public contents were reviewed through GitHub's signed-out view on 2026-07-24.
+**Audit date:** 2026-10-06 (revised)
+**Status:** Published. The current public contents were re-reviewed after the October 2026 architecture and evaluation update.
 
-This report documents the security review performed on this repository. It also records the accuracy revision pass in which payment claims, deployment claims, and AI-agent safety language were corrected and de-risked.
+This report documents the security review performed on this repository. It also records accuracy revision passes in which payment claims, deployment claims, AI-agent controls, evaluation evidence, and system status were corrected and de-risked.
 
 ## Method
 
 This repository was authored from scratch as sanitized documentation. **No files were copied from the private production repository**, which was treated as strictly read-only and used only to verify facts. Every file here is original prose, diagrams, or clearly fictional example data.
 
-A revision pass then (a) corrected material claims against the private implementation, and (b) removed operationally sensitive detail — replacing enumerated weaknesses with higher-level language about ongoing work, on the principle that public documentation should not double as an operational map of a live system.
+Revision passes then (a) corrected material claims against the private implementation, and (b) removed operationally sensitive detail while retaining enough architecture and evaluation evidence to explain the work. Public documentation should demonstrate implemented controls without becoming an operational map of a live system.
 
 ## Checklist results
 
@@ -29,11 +29,11 @@ A revision pass then (a) corrected material claims against the private implement
 | 11 | Imported Git history | **PASS** — the public repository contains only the history created for this sanitized documentation; no history from the private production repository was imported. |
 | 12 | `.env` / credential files | **PASS** — none present. |
 | 13 | `.gitignore` coverage | **PASS** — covers environment files, private keys, credential JSON, data exports/dumps/backups, logs, and (defensively) all image formats in `images/` except the README, so an un-reviewed screenshot cannot be committed by accident. |
-| 14 | **Exploit-relevant operational detail** | **PASS after revision** — operationally sensitive detail was removed and replaced with high-level descriptions of ongoing hardening priorities. |
+| 14 | **Exploit-relevant operational detail** | **PASS after revision** — controls are described structurally without endpoint paths, policy configuration, prompts, credential names, hosts, or a catalog of weaknesses. |
 
 ## Operational-detail review
 
-Operationally sensitive implementation and security details were removed and replaced with high-level descriptions of ongoing hardening priorities. Implemented safeguards are stated only where they were verified; desirable-but-incomplete controls are described as active priorities rather than finished features.
+Operationally sensitive implementation and security details were removed. Implemented safeguards are stated only where they were verified; continuing work is described as expanding coverage and automated verification rather than implying either that controls do not exist or that security is finished.
 
 ## Accuracy corrections made in the revision pass
 
@@ -44,7 +44,7 @@ Operationally sensitive implementation and security details were removed and rep
 | Invoice payments | Conflated with rent | Stated separately as the **live** payment path |
 | Vendor payouts / landlord disbursements | Implied live | Described only to the extent implemented, with adoption distinguished from capability |
 | Lines of code | "200,000+ lines" | Removed — no documented figure exists |
-| Agent count | "five to six agents have phone/SMS"; a 16-persona roster | Removed. Pierce is the documented property-management agent; no production agent count claimed |
+| Agent count | "five to six agents have phone/SMS"; a 16-persona roster | Pierce and Brett are documented in detail; additional deployed specialized roles are acknowledged without publishing a count, roster, prompts, contact details, or internal responsibilities |
 | iOS status | "Live (App Store target)" | **TestFlight distribution**, not publicly released on the App Store; public release labeled Planned |
 | Android status | "In-progress port" | **In limited internal use; not production-ready** |
 | Third-party rent platform | Named explicitly | **Genericized** to "third-party property-management platform" at owner's request — vendor name removed from all files and diagrams |
@@ -52,6 +52,9 @@ Operationally sensitive implementation and security details were removed and rep
 | Timeline | "more than a year of production operation"; "last several years" of this work | Development began **April 2025**; several years of prior business/real-estate operations experience stated separately |
 | User scope | Treated different vendor measures as conflicting counts | Operator + 5 agents, ~10 landlords, ~20 tenants, and **about 20 operationally engaged vendors** who have received dispatched work or actively participate in EDP workflows. A read-only aggregate also identified ~110 vendor-directory records with ~40 flagged active. These figures measure directory size, internal status, and actual operational engagement respectively. No vendor records, names, or IDs were reproduced. |
 | Test coverage | Exact per-app file counts | Relative coverage levels, with gaps stated as priorities |
+| Agent-policy controls | Previously described primarily as future hardening | Updated to reflect verified OAuth-scoped access, shared role policy, confirmation and write gates, storage-path controls, audit records, and authenticated human review; ongoing work is expansion and testing |
+| Agent evaluation | Not included in the original overview | Added a sanitized summary of the verified 35-case, 18-criteria, 66-meta-test harness and its limitations |
+| Realtime voice | Described only as a generic voice agent | Updated with high-level streaming, interruption, transcript, validation, and restricted-capability behavior without publishing endpoints or configuration |
 
 ## Deliberate inclusions (reviewed, judged safe)
 
@@ -59,6 +62,8 @@ Operationally sensitive implementation and security details were removed and rep
 - **The business name (Euphoric Development Partners, abbreviated EDP)** — already-public information the brokerage advertises. No street addresses anywhere.
 - **Subproject / module names** (`edpmain`, `edpAgentNet`, etc.) — internal module names, not hosts, endpoints, or secrets.
 - **The agent name "Pierce"** — a product persona name, not a credential or PII.
+- **The agent name "Brett"** — a product persona name already documented through a fictional workflow case study.
+- **Aggregate evaluation counts** — non-identifying technical evidence containing no prompts, customer messages, addresses, or production records.
 - **Approximate user counts** — aggregate, non-identifying business scale.
 - **Third-party vendor names** (Stripe, Plaid, Twilio, SendGrid, OpenAI, Gemini) — standard stack disclosure, no configuration detail. The rent-platform vendor is deliberately **not** named, at the owner's request; it is referred to only as "a third-party property-management platform."
 
@@ -83,4 +88,4 @@ find . -type l
 
 ## Conclusion
 
-The repository contains no credentials, no real personal or customer data, no production identifiers, and no enumerated operational weaknesses. Material claims have been corrected against the private implementation, and features are labeled Live / Production-capable / Partial / Planned so that nothing reads as more deployed than it is. The current contents are approved for continued public use, subject to re-review after future changes.
+The repository contains no credentials, no real personal or customer data, no production identifiers, and no enumerated operational weaknesses. The October 2026 update's secret, email, telephone, and symlink scans returned no findings beyond the scan pattern printed inside this review itself. Material claims were checked against the private implementation, and features remain labeled Live / Production-capable / Partial / Planned so that nothing reads as more deployed than it is. The current contents are approved for continued public use, subject to re-review after future changes.

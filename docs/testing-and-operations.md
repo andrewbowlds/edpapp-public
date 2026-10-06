@@ -13,6 +13,13 @@ Approximate automated test coverage per app:
 | edpmain | Light | Unit tests of pure helper functions |
 | edpadmin / edpbilling / edpEuphoriSign | Minimal to none | Coverage here is a stated priority |
 
+The cross-system agent work also has targeted test layers that do not fit neatly into a single app row:
+
+- A **Python evaluation harness** for the deployed rental-email agent: 35 cases, 18 criteria, 66 meta-tests, and 12 safety gates that require 100%.
+- Unit tests around the shared MCP policy layer, API gates, storage-path rules, role resolution, confirmation boundaries, and instruction-size budgets.
+- Realtime-voice tests for connection and stream validation, call metadata, interruption behavior, transcript state, and agent-profile restrictions.
+- Workflow tests around document preparation, packet state, signing order, and human-review records.
+
 **What this says honestly:** coverage is concentrated where the risk is highest — the app governing tenant/landlord/vendor data and money workflows has the most meaningful tests, including authorization-level ones. But it isn't uniform, and extending coverage to the remaining apps (particularly those touching money and documents) is real prioritized work rather than something I'll imply is already done.
 
 ## The testing that matters most
@@ -25,6 +32,8 @@ The property-management app's **security-rules tests are the strongest part of t
 - Run in CI on every push and pull request
 
 For an architecture where authorization is expressed in rules, testing those rules directly against the emulator is the highest-leverage test available, and it's genuinely in place.
+
+The second major control is the **agent evaluation suite**. It loads the deployed instructions directly, separates quality thresholds from 100% safety gates, and tests its own scorers with known-good and known-bad examples. The most useful defects it found were not all model failures: several were incorrect assumptions in the harness itself. That changed the practice from “score the agent” to “test the entire evaluation system.” See [`evaluation-harness.md`](evaluation-harness.md).
 
 ## CI/CD
 
@@ -59,5 +68,6 @@ This is a system I operate, not just one I built. Since April 2025 that has mean
 - Reconciling real money. Several bookkeeping and ledger bugs were found and fixed through operating the billing side against real data — the kind of thing tests alone don't catch.
 - Running data migrations against live production data using dual-write/backfill/cutover, coordinating web and mobile in lockstep because the mobile client can lag a web change by a review cycle.
 - Turning off automation that wasn't worth its noise, and validating new automated outbound workflows before enabling them.
+- Converting production edge cases—duplicate events, ambiguous identity matches, stale source records, document dependencies, and incorrect test assumptions—into data rules, policy gates, or regression tests.
 
-**What good operations would add** at higher scale: centralized cross-app observability, richer alerting, monitoring of the agent pipeline, and a test gate in front of every production deploy rather than just some.
+**What good operations would add** at higher scale: centralized cross-app observability, richer alerting, sampled production-agent monitoring, controlled failure injection, and a test gate in front of every production deploy rather than just some.

@@ -125,8 +125,11 @@ Full detail in [`ai-agent-system.md`](ai-agent-system.md).
 | Event → agent pipeline (Cloud Functions) | Live on the producing side |
 | Time-based escalation for stale requests | Live |
 | Audit logging of agent actions | Live |
-| Capability-scoped authorization, server-side policy enforcement, human-approval controls | **Active priorities** — being strengthened; not presented as complete |
-| Additional agent concepts beyond Pierce and Brett | **Not claimed** — design concepts are not presented as deployed roles |
+| OAuth-protected MCP access and user-scoped resources | Live — internal operator use |
+| Shared role policy, confirmation gates, write constraints, and storage-path controls | Live — coverage expands with each new tool |
+| Authenticated human review for document workflows | Live |
+| Rental-agent evaluation harness | Active — 35 cases, 18 criteria, 66 meta-tests, 12 safety gates |
+| Additional specialized roles beyond Pierce and Brett | Deployed — full internal roster intentionally omitted |
 
 ## Internal operator tooling status
 
@@ -135,6 +138,8 @@ Full detail in [`ai-agent-system.md`](ai-agent-system.md).
 | Firestore MCP service (staged read/write/approve modes, approval step for destructive operations) | Live — in internal operational use |
 | Permission-scoped MCP variant (collection-level restrictions + field-level redaction) | Live — built for restricted access |
 | External PM-platform MCP bridge (reconciliation) | Live — internal use |
+| Shared MCP policy package | Live — role resolution, confirmation, schema, and storage-path gates |
+| Remote MCP authorization | Live — OAuth-based, user-scoped access |
 
 ## The multi-organization direction
 

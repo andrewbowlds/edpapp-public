@@ -1,6 +1,6 @@
 # Security & Privacy
 
-This document describes the system's security and privacy approach at a structural level, appropriate for a public overview. It deliberately excludes anything operationally sensitive: no rule excerpts, no project IDs, no credential names, no infrastructure hostnames, and no catalog of specific weaknesses. Where safety work is in progress, I describe it as an active priority rather than as a finished control.
+This document describes the system's security and privacy approach at a structural level, appropriate for a public overview. It deliberately excludes anything operationally sensitive: no rule excerpts, no project IDs, no credential names, no infrastructure hostnames, and no catalog of specific weaknesses. Implemented controls are distinguished from continuing hardening work.
 
 ## Authorization model
 
@@ -20,9 +20,20 @@ An organization-level isolation concept (relevant to a possible future multi-org
 - Server-side secrets used by serverless functions are injected as managed secrets rather than committed.
 - Client-exposed configuration (public Firebase web config, Stripe *publishable* keys) appears in build config by necessity — these ship in the browser bundle by design and are not secrets. I note the distinction so "public key that's meant to be public" isn't confused with a leaked secret.
 
-## Internal tooling designed with least privilege
+## Agent-tool authorization and least privilege
 
-The internal MCP tooling used to operate business data through an AI assistant was built **with access controls in mind**: staged read/write/approve modes, an approval step for destructive operations, and — in a permission-scoped variant intended for restricted access — collection-level access restrictions plus field-level redaction of sensitive values before any data is returned to the assistant. This is described at the level of "designed with least-privilege controls" rather than publishing its configuration; scoping an AI agent's data access was treated as a design requirement, not an afterthought.
+The internal MCP tooling used to operate business data through AI assistants applies controls at the tool boundary rather than relying only on model instructions:
+
+- OAuth-based user authorization and user-scoped resources
+- shared role policy before tools reach operational data
+- confirmation requirements for destructive or consequential operations
+- schema and allowed-value gates on writes
+- path-level restrictions for stored documents
+- audit records and authenticated human review for workflows that require accountable approval
+
+This is described at a structural level rather than publishing policy configuration. The important distinction is that an instruction tells a model what it should do; a tool gate determines what the system will allow it to do.
+
+Realtime voice uses a narrower capability profile than asynchronous operator workflows. Call and stream metadata are validated, connections use short-lived authorization, and the realtime profile excludes high-consequence tools. This reduces the effect of a mistaken or adversarial spoken instruction without claiming that voice-agent risk is eliminated.
 
 ## Audit trails
 
@@ -33,14 +44,14 @@ The internal MCP tooling used to operate business data through an AI assistant w
 
 The property-management app — the highest-risk app, because it governs tenant/landlord/vendor data and touches money workflows — has **emulator-backed security-rules tests**: they load the actual rules into the Firestore emulator and assert that role/ownership scenarios succeed or fail as intended, running in CI on every push and pull request. For a rules-based authorization model, testing those rules directly against the emulator is the highest-leverage security test available, and it's genuinely in place. Extending this style of coverage across more of the system is a stated priority.
 
-## Security-relevant priorities (stated honestly)
+## Security-relevant priorities
 
 Rather than publish a list of specific gaps, this section states the direction of the work:
 
-- **Strengthening capability-scoped authorization and server-side policy enforcement** for the AI-agent system — moving important business constraints and approval steps into application-code enforcement — is the top priority.
+- **Extending shared policy coverage and automated authorization tests** as new tools and agent roles are added.
 - **Completing the authorization-model migration** and retiring the compatibility layer.
 - **Completing organization-level isolation** before any multi-organization direction.
 - **Broadening automated security and authorization test coverage** across more apps.
 - **Adding dependency-vulnerability scanning** to CI.
 
-I frame these as priorities I understand and can rank, because the roles I'm targeting are exactly about being the person who can look at a live system, understand where the security investment should go next, and sequence it correctly — without turning a public document into a map of where to push.
+The central policy and approval mechanisms are implemented; the priority is keeping coverage complete and verifiable as the system changes. No public document should imply either that the controls do not exist or that security work is ever finished.

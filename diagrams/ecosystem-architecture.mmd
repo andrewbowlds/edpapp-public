@@ -48,8 +48,10 @@ flowchart TB
     end
 
     subgraph OpsTooling["Internal operator tooling — custom MCP services"]
-        FSMcp["Firestore MCP\nstaged access modes\n+ approval for destructive ops"]
-        ScopedMcp["permission-scoped variant\nscoped access + field redaction"]
+        OAuth["OAuth user access\nuser-scoped resources"]
+        Policy["shared MCP policy\nrole · confirmation · schema\n+ storage-path gates"]
+        FSMcp["Firestore MCP\nread/write tools"]
+        ScopedMcp["permission-scoped tools\nscoped access + redaction"]
         ExtMcp["External PM-platform MCP\nreconciliation bridge"]
     end
 
@@ -87,6 +89,10 @@ flowchart TB
     AgentNet & Mgmt & Billing --> Plaid
     Mgmt & Esign & Billing --> SendGrid
 
+    OAuth --> Policy
+    Policy --> FSMcp
+    Policy --> ScopedMcp
+    Policy --> ExtMcp
     FSMcp --> Firestore
     FSMcp --> Storage
     ScopedMcp --> Firestore

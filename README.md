@@ -2,7 +2,7 @@
 
 **A sanitized technical overview of a production real-estate operations platform.**
 
-> ⚠️ **This is not the production repository.** It contains no application source code, no credentials, no customer data, and no infrastructure details. Everything here is original prose, diagrams, and clearly fictional example data written to explain *how* the real system is built and *why*, at a level safe for public viewing. See [`SECURITY_REVIEW.md`](SECURITY_REVIEW.md) for the audit performed before publication.
+> ⚠️ **This is not the production repository.** It contains no application source code, credentials, customer data, production identifiers, or operationally sensitive infrastructure details. Everything here is original prose, diagrams, and clearly fictional example data written to explain *how* the real system is built and *why*, at a level safe for public viewing. See [`SECURITY_REVIEW.md`](SECURITY_REVIEW.md) for the audit performed before publication.
 
 ---
 
@@ -10,7 +10,7 @@
 
 I'm Andrew Bowlds — a managing broker who conceived, directed, and operates **Euphoric Development Partners (EDP)**, a real-estate brokerage and property-management business, along with the software ecosystem that runs it. I'm looking for **delivery-focused, non-quota-carrying roles across AI deployment, implementation, deployed product, adoption, technical program management, and technical success**. I'm comfortable working directly with customers on discovery, workshops, demonstrations, pilots, solution design, delivery, and adoption when the company supplies the customer relationships and scheduled engagements. My best fit is helping customers solve operational problems—not cold outreach, self-generated pipeline, or commission-based sales.
 
-For several years I've run real-estate operations as a broker. Since **April 2025** I've been designing and building the software platform described here: six interconnected web applications plus native mobile clients, deployed and receiving regular updates, running the day-to-day operations of the business. I conceived the product, identified the business problems and users, defined the requirements and workflows, and directed the architecture and integrations. I used AI coding assistants in VS Code for much of the line-by-line implementation, working from my own specifications — and I reviewed, tested, troubleshot, deployed, and operate every part of it. See [My Role & Methodology](#my-role--ai-assisted-development-methodology) for the honest version of that, including where I've learned the most.
+For several years I've run real-estate operations as a broker. Since **April 2025** I've been designing and building the software platform described here: six interconnected web applications plus native mobile clients, a tool-connected agent layer, and evaluation and policy controls, deployed and receiving regular updates while running the day-to-day operations of the business. I conceived the product, identified the business problems and users, defined the requirements and workflows, and directed the architecture and integrations. I used AI coding assistants in VS Code for much of the line-by-line implementation, working from my own specifications — and I reviewed, tested, troubleshot, deployed, and operate the resulting system. See [My Role & Methodology](#my-role--ai-assisted-development-methodology) for the honest version of that, including where I've learned the most.
 
 ## The Business Problem
 
@@ -49,7 +49,7 @@ EDP automates the **pre-application leasing journey** rather than replacing the 
 
 ## System Overview
 
-Six web applications sharing one Firebase/Firestore backend, plus native mobile clients and a set of custom MCP (Model Context Protocol) services used for internal operations. Cross-app communication is primarily direct, scoped Firestore access governed by security rules, plus a handful of HTTP endpoints (user provisioning, activity logging, magic-link SSO, push-token registration).
+Six web applications share one Firebase/Firestore operating data layer, alongside native mobile clients, realtime voice infrastructure, and custom MCP (Model Context Protocol) services. The MCP layer gives authorized assistants bounded tools for operational records and external systems; a shared policy layer applies role, user, confirmation, and storage-path restrictions before those tools reach data. Cross-app communication is primarily scoped Firestore access governed by security rules, plus authenticated service endpoints for specific workflows.
 
 ```mermaid
 flowchart TB
@@ -97,7 +97,12 @@ flowchart TB
     Main & Mgmt & Billing --> Pay[("Stripe")]
     AgentNet & Mgmt & Billing --> Bank[("Plaid")]
 
-    MCP[("Custom MCP services\n(internal operations)")] -.-> Firestore
+    OAuth[("OAuth user access")]
+    Policy[("Shared MCP policy\nroles · confirmations · path gates")]
+    MCP[("Custom MCP services\n(internal operations)")]
+
+    OAuth --> Policy --> MCP
+    MCP -.bounded tools.-> Firestore
 ```
 
 See [`diagrams/ecosystem-architecture.mmd`](diagrams/ecosystem-architecture.mmd) for the full-detail version and [`docs/architecture.md`](docs/architecture.md) for the write-up.
@@ -133,11 +138,12 @@ The system uses specialized agents for distinct operational jobs rather than one
 
 ### Pierce — leasing and property-management operations
 
-**Pierce** is an AI property-management agent that communicates on the business's behalf by phone, text, and email, and that responds to operational events (such as new maintenance requests) with actions taken against authorized operational data. Pierce is built on OpenAI's real-time/voice capabilities for phone conversations, with a supporting event pipeline:
+**Pierce** is an AI property-management agent that communicates on the business's behalf by phone, text, and email, and that responds to operational events (such as new maintenance requests) through authorized tools and operating data.
 
-- **Event triggers**: Firestore-triggered Cloud Functions fire when relevant records (maintenance requests, applications, tours) are created
-- **Context**: the agent works from a notification pipeline and scoped access to operational data
-- **Human-in-the-loop**: the system includes ongoing work to strengthen capability-scoped authorization, server-side policy enforcement, and human-approval controls — I describe these as active priorities rather than finished features in [`docs/ai-agent-system.md`](docs/ai-agent-system.md)
+- **Realtime voice**: a Cloud Run bridge connects Twilio's bidirectional media stream to OpenAI Realtime. It handles streaming audio, semantic turn detection, interruptions, cancellation of unplayed responses, delivery-aware transcripts, validation, and latency logging.
+- **Leasing workflow**: inquiries from listing sources, email, SMS, and phone are connected to unit-specific prescreening, self-guided-tour scheduling, location-verified check-in, lockbox access, follow-up, and the external application/background-check provider.
+- **Event-driven operations**: relevant records can enter an agent-visible work pipeline without making the underlying business write depend on agent availability.
+- **Boundaries**: tools and workflows apply authentication, role policy, confirmation, and human-review controls. Those controls are implemented and continue to be hardened as the system expands.
 
 ### Brett — conversational transaction coordination
 
@@ -145,7 +151,7 @@ The system uses specialized agents for distinct operational jobs rather than one
 
 The workflow respects document dependencies. For example, a buyer-side lead-based-paint acknowledgment is not something Brett should invent from a buyer's request: the listing side must first supply the seller-completed disclosure stating the seller's knowledge and available records, after which the buyer can acknowledge receipt. In a recorded fictional test with no listing-side disclosure, Brett correctly excluded that document rather than generating an unsupported form.
 
-This is a workflow-orchestration system, not legal advice or an autonomous substitute for the licensed agent. The human agent remains responsible for the transaction instructions, required documents, source-document availability, and accuracy of the resulting packet. See the detailed [`Brett workflow case study`](docs/brett-workflow-case-study.md).
+This is a workflow-orchestration system, not legal advice or an autonomous substitute for the licensed agent. The human agent remains responsible for the transaction instructions, required documents, source-document availability, and accuracy of the resulting packet. Authenticated review records and packet history preserve that human checkpoint. See the detailed [`Brett workflow case study`](docs/brett-workflow-case-study.md).
 
 A July 2026 Firestore audit verified the complete technical path:
 
@@ -156,7 +162,23 @@ A July 2026 Firestore audit verified the complete technical path:
 
 Those figures are evidence of an operating end-to-end workflow, not a customer-volume claim. The SMS history includes development and rollout traffic, and one of the three packets is explicitly test-addressed.
 
-Separately, custom MCP (Model Context Protocol) services are used internally to operate business data and a third-party property-management platform through an AI assistant, with scoped access controls. This is internal operator tooling, not an end-user product.
+Pierce and Brett are the easiest roles to explain publicly because their workflows have already been documented in detail. They are not the only specialized agents in operation. The broader system uses additional bounded roles for distinct operational jobs rather than treating one general assistant as universally authorized.
+
+Custom MCP services are used internally to operate business data, contacts, transaction forms, e-signature workflows, utilities, and a third-party property-management platform through authorized AI assistants. OAuth-based user authorization, role policies, confirmation requirements, path restrictions, and audit records are applied at the tool layer. This is internal operator tooling, not an end-user product.
+
+## Evaluation as a deployment control
+
+The rental-email agent has a Python evaluation harness built around the deployed instructions rather than a copied prompt. Its current documented state is:
+
+- **35 cases** drawn from realistic and production-observed inquiry patterns
+- **18 criteria** across routing, response quality, funnel integrity, compliance, and safety
+- **66 meta-tests** that test the scorers and safety gates themselves
+- **12 safety gates**, all required to pass at 100% rather than being averaged into a quality score
+- **34 of 35 cases clean** in the documented run; the remaining failure was traced to an over-specified harness assertion rather than unsafe agent behavior
+
+Deterministic assertions are preferred where a rule can be stated precisely. Contextual compliance checks cover obligations such as fair-housing behavior, and model-based judging is limited to criteria such as tone and responsiveness—not safety. The suite has already found incorrect test assumptions, unreachable fixture paths, weak patterns, and distinctions between messages that look similar but require different actions.
+
+See [`docs/evaluation-harness.md`](docs/evaluation-harness.md) for the design and the lessons that changed how I evaluate production agents.
 
 ## Verified Technology Stack
 
@@ -166,9 +188,11 @@ Separately, custom MCP (Model Context Protocol) services are used internally to 
 - **Hosting**: Firebase App Hosting (Cloud Run-backed)
 - **Serverless**: Firebase Cloud Functions (2nd gen) for Firestore triggers, scheduled jobs, and callable functions — concentrated in the property-management app
 - **AI/LLM**: Google Genkit + Gemini for in-app AI flows (document Q&A, vendor-quote summarization, W-9 extraction, maintenance analysis); OpenAI (real-time voice, TTS, transcription) for the phone-based agent
+- **AI evaluation**: Python harness with deterministic assertions, contextual compliance checks, limited LLM-as-judge scoring, and meta-tests for the scorers
 - **Payments**: Stripe (Checkout, and a Connect-based disbursement pipeline), Plaid (bank linking, transaction import)
 - **Communications**: Twilio (voice + SMS), SendGrid (transactional email)
-- **Documents**: an in-house e-signature engine (not a DocuSign/HelloSign integration) built on `pdf-lib`, plus Tesseract.js OCR for form-field detection
+- **Documents**: in-house e-signature and PDF workflows, plus transaction-form integrations and Tesseract.js OCR for form-field detection
+- **Agent tools and policy**: custom MCP services, OAuth-based user authorization, shared role policies, confirmation gates, and path-level storage controls
 - **Mobile**: native Swift/SwiftUI (iOS, distributed via TestFlight) and Kotlin/Jetpack Compose (Android, limited internal use)
 
 Full stack detail — including dependencies that are installed but not actively used, flagged explicitly — is in [`docs/architecture.md`](docs/architecture.md).
@@ -198,7 +222,7 @@ Full writeup in [`docs/engineering-decisions.md`](docs/engineering-decisions.md)
 
 ## Security & Privacy
 
-Full writeup in [`docs/security-and-privacy.md`](docs/security-and-privacy.md). Short version: role-based Firestore security rules with ownership/relationship-based data isolation, Firebase Auth custom claims, secrets kept out of source control, emulator-backed authorization tests for the highest-risk app, and clearly-scoped internal tooling. The system includes ongoing work to strengthen capability-scoped authorization, server-side policy enforcement, and human-approval controls; I describe those as active priorities, not finished features.
+Full writeup in [`docs/security-and-privacy.md`](docs/security-and-privacy.md). Short version: role-based Firestore security rules with ownership/relationship-based data isolation, Firebase Auth custom claims, secrets kept out of source control, emulator-backed authorization tests for the highest-risk app, OAuth-protected MCP access, shared tool policy, confirmation boundaries, path-level storage restrictions, and authenticated human review. These are implemented controls, not a claim that the security work is finished; policy coverage and automated verification continue to expand with the system.
 
 ## Testing & Production Operations
 
@@ -207,7 +231,8 @@ Full writeup in [`docs/testing-and-operations.md`](docs/testing-and-operations.m
 ## Current Limitations & Next Improvements
 
 - Multi-tenant SaaS support (serving brokerages beyond EDP) is a direction with partial groundwork, not a shipped capability — tracked honestly in [`docs/project-status.md`](docs/project-status.md).
-- Strengthening the AI-agent system's server-side policy enforcement and human-approval controls is an active engineering priority, described at that level in [`docs/ai-agent-system.md`](docs/ai-agent-system.md).
+- Extending shared agent policy and automated authorization tests to every tool and workflow remains ongoing work even though the central policy, confirmation, and human-review mechanisms are now implemented.
+- Production monitoring for evaluation drift and controlled failure injection are not yet part of the documented evaluation harness.
 - Automated test coverage should extend to the apps that currently have less of it.
 - Field-naming consistency across apps is being migrated to a documented canonical standard using a dual-write/backfill/cutover pattern, because this is a live system with real data.
 
@@ -230,11 +255,12 @@ edpapp-public/
 ├── SECURITY_REVIEW.md             # pre-publication security audit of this repo
 ├── docs/
 │   ├── architecture.md
-│   ├── ai-agent-system.md         # Pierce and Brett, described at a safe level
+│   ├── ai-agent-system.md         # specialized agents, MCP tools, and controls
 │   ├── brett-workflow-case-study.md
 │   ├── engineering-decisions.md
 │   ├── security-and-privacy.md
 │   ├── testing-and-operations.md
+│   ├── evaluation-harness.md      # production-agent eval design and findings
 │   ├── lessons-learned.md
 │   └── project-status.md          # live / partial / experimental / planned, per feature
 ├── diagrams/                      # Mermaid source, renders natively on GitHub
