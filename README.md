@@ -27,23 +27,11 @@ Buying six different SaaS products doesn't share data cleanly and doesn't let yo
 
 ## Users & Scope
 
-This is a deployed production system running one real brokerage's operations. It supports:
+This is a deployed production system running one real brokerage's operations. It supports the operator, real-estate agents, landlords, tenants, vendors, clients, and public prospects across role-specific surfaces. Exact user and activity counts are intentionally omitted because they change with the business and are not a measure of platform capacity.
 
-| User type | Count | Note |
-|---|---|---|
-| Operator (me) | 1 | Product owner and operator |
-| Real-estate agents | 5 | Using the CRM/transaction system |
-| Landlords | ~10 | Property owners in the property-management app |
-| Tenants | ~20 | Renters with leases and ledgers |
-| Vendors | ~20 operationally engaged | Service providers who have received dispatched work or actively participate in EDP workflows |
+## Production Leasing Activity
 
-Plus the public/marketing surface, which handles inbound leads and applicants on an ongoing basis. These figures describe current usage, not capacity. The broader vendor directory contains approximately 110 records, with approximately 40 marked active; about 20 vendors have received dispatched work or actively participate in EDP workflows. Those figures measure different levels of engagement rather than conflicting user counts.
-
-## Verified Leasing Activity
-
-A Firestore review of **June 1-30, 2026** found **288 rental-inquiry records representing approximately 214 distinct prospects** after normalizing and matching shared phone, email, conversation, and thread identifiers. The inquiry records came from RentSpree (117), Zillow (71), phone (50), Facebook (48), and two records carrying combined RentSpree/Zillow attribution.
-
-Matching those prospects against Pierce's communication histories identified **588 logged interactions**: 421 SMS messages (279 outbound and 142 inbound), 121 voice conversations, and 46 email messages. At least **115 distinct June prospects** had a directly matched Pierce communication. That is a conservative lower bound because some Zillow and Facebook conversations do not share a stable phone, email, or lead identifier with the central lead record.
+Production records confirm that Pierce handles rental inquiries and follow-up across listing sources, email, SMS, and telephone workflows. Exact activity counts and channel totals are intentionally not published because they change continuously.
 
 EDP automates the **pre-application leasing journey** rather than replacing the screening provider: Pierce receives inquiries from multiple channels, directs prospects to a unit-specific prescreening page, invites qualified prospects to schedule a self-guided tour, supports location-verified check-in and lockbox access, and conducts follow-up. Prospects who choose to apply are sent to a unique **RentSpree** link for the application and background check.
 
@@ -153,14 +141,7 @@ The workflow respects document dependencies. For example, a buyer-side lead-base
 
 This is a workflow-orchestration system, not legal advice or an autonomous substitute for the licensed agent. The human agent remains responsible for the transaction instructions, required documents, source-document availability, and accuracy of the resulting packet. Authenticated review records and packet history preserve that human checkpoint. See the detailed [`Brett workflow case study`](docs/brett-workflow-case-study.md).
 
-A July 2026 Firestore audit verified the complete technical path:
-
-- **178 Brett-attributed SMS records** (57 inbound and 121 outbound) and **46 inbound queue items**, demonstrating a working two-way SMS channel
-- **Three e-sign packets created through Brett's prepare-and-send path**: two completed and one sent
-- **One form record explicitly filled by Brett**
-- **One controlled end-to-end fictional test** recorded from SMS request through transaction creation and sent e-sign packet
-
-Those figures are evidence of an operating end-to-end workflow, not a customer-volume claim. The SMS history includes development and rollout traffic, and one of the three packets is explicitly test-addressed.
+A production-data review verified the complete technical path: two-way SMS intake, queued processing, transaction creation, agent-assisted form preparation, packet assembly, and e-signature delivery. A controlled fictional demonstration exercised the same path without exposing client or property information. Exact message and packet counts are intentionally omitted because they change as the system is used.
 
 Pierce and Brett are the easiest roles to explain publicly because their workflows have already been documented in detail. They are not the only specialized agents in operation. The broader system uses additional bounded roles for distinct operational jobs rather than treating one general assistant as universally authorized.
 
@@ -168,13 +149,7 @@ Custom MCP services are used internally to operate business data, contacts, tran
 
 ## Evaluation as a deployment control
 
-The rental-email agent has a Python evaluation harness built around the deployed instructions rather than a copied prompt. Its current documented state is:
-
-- **35 cases** drawn from realistic and production-observed inquiry patterns
-- **18 criteria** across routing, response quality, funnel integrity, compliance, and safety
-- **66 meta-tests** that test the scorers and safety gates themselves
-- **12 safety gates**, all required to pass at 100% rather than being averaged into a quality score
-- **34 of 35 cases clean** in the documented run; the remaining failure was traced to an over-specified harness assertion rather than unsafe agent behavior
+The rental-email agent has a Python evaluation harness built around the deployed instructions rather than a copied prompt. The versioned suite covers realistic and production-observed inquiry patterns, routing, response quality, funnel integrity, compliance, and safety. Safety remains a hard release gate rather than being averaged into a quality score, and meta-tests exercise the scorers themselves.
 
 Deterministic assertions are preferred where a rule can be stated precisely. Contextual compliance checks cover obligations such as fair-housing behavior, and model-based judging is limited to criteria such as tone and responsiveness—not safety. The suite has already found incorrect test assumptions, unreachable fixture paths, weak patterns, and distinctions between messages that look similar but require different actions.
 

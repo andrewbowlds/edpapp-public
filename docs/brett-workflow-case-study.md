@@ -61,15 +61,7 @@ This is an important product behavior: successful automation is not measured by 
 
 ## Evidence and claims
 
-A July 2026 audit found:
-
-- 178 Brett-attributed SMS records: 57 inbound and 121 outbound
-- 46 inbound queue items
-- three e-sign packets created through Brett's prepare-and-send path: two completed and one sent
-- one form record explicitly marked as filled by Brett
-- one recorded fictional end-to-end test from SMS request through sent packet
-
-These figures demonstrate a working integration path. They are not presented as customer-volume, revenue, or time-savings measurements. The message history includes development and rollout traffic.
+A production-data review verified two-way SMS intake, queued processing, transaction creation, agent-assisted form preparation, packet assembly, and e-signature delivery. A recorded fictional demonstration exercised the same end-to-end path without using client or property information. Exact message and packet counts are intentionally omitted because they change with continued use.
 
 ## What this demonstrates
 

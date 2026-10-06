@@ -50,10 +50,10 @@ Operationally sensitive implementation and security details were removed. Implem
 | Third-party rent platform | Named explicitly | **Genericized** to "third-party property-management platform" at owner's request — vendor name removed from all files and diagrams |
 | E-signatures | "legally binding" | "Audit-grade, tamper-evident" with ESIGN-consent capture; legal enforceability not claimed |
 | Timeline | "more than a year of production operation"; "last several years" of this work | Development began **April 2025**; several years of prior business/real-estate operations experience stated separately |
-| User scope | Treated different vendor measures as conflicting counts | Operator + 5 agents, ~10 landlords, ~20 tenants, and **about 20 operationally engaged vendors** who have received dispatched work or actively participate in EDP workflows. A read-only aggregate also identified ~110 vendor-directory records with ~40 flagged active. These figures measure directory size, internal status, and actual operational engagement respectively. No vendor records, names, or IDs were reproduced. |
+| User scope | Treated changing user and vendor counts as portfolio evidence | Replaced exact counts with the supported user groups and a statement that usage figures are intentionally omitted because they change with the business |
 | Test coverage | Exact per-app file counts | Relative coverage levels, with gaps stated as priorities |
 | Agent-policy controls | Previously described primarily as future hardening | Updated to reflect verified OAuth-scoped access, shared role policy, confirmation and write gates, storage-path controls, audit records, and authenticated human review; ongoing work is expansion and testing |
-| Agent evaluation | Not included in the original overview | Added a sanitized summary of the verified 35-case, 18-criteria, 66-meta-test harness and its limitations |
+| Agent evaluation | Not included in the original overview | Added a sanitized explanation of the versioned harness and its limitations without publishing changing suite totals |
 | Realtime voice | Described only as a generic voice agent | Updated with high-level streaming, interruption, transcript, validation, and restricted-capability behavior without publishing endpoints or configuration |
 
 ## Deliberate inclusions (reviewed, judged safe)
@@ -63,7 +63,6 @@ Operationally sensitive implementation and security details were removed. Implem
 - **Subproject / module names** (`edpmain`, `edpAgentNet`, etc.) — internal module names, not hosts, endpoints, or secrets.
 - **The agent name "Pierce"** — a product persona name, not a credential or PII.
 - **The agent name "Brett"** — a product persona name already documented through a fictional workflow case study.
-- **Aggregate evaluation counts** — non-identifying technical evidence containing no prompts, customer messages, addresses, or production records.
 - **Approximate user counts** — aggregate, non-identifying business scale.
 - **Third-party vendor names** (Stripe, Plaid, Twilio, SendGrid, OpenAI, Gemini) — standard stack disclosure, no configuration detail. The rent-platform vendor is deliberately **not** named, at the owner's request; it is referred to only as "a third-party property-management platform."
 

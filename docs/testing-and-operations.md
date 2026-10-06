@@ -15,7 +15,7 @@ Approximate automated test coverage per app:
 
 The cross-system agent work also has targeted test layers that do not fit neatly into a single app row:
 
-- A **Python evaluation harness** for the deployed rental-email agent: 35 cases, 18 criteria, 66 meta-tests, and 12 safety gates that require 100%.
+- A **Python evaluation harness** for the deployed rental-email agent, with versioned cases, individually reported criteria, hard safety gates, and meta-tests of the scorers.
 - Unit tests around the shared MCP policy layer, API gates, storage-path rules, role resolution, confirmation boundaries, and instruction-size budgets.
 - Realtime-voice tests for connection and stream validation, call metadata, interruption behavior, transcript state, and agent-profile restrictions.
 - Workflow tests around document preparation, packet state, signing order, and human-review records.

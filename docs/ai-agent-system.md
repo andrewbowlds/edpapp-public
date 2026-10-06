@@ -77,7 +77,7 @@ Implemented does not mean complete. New tools still require explicit policy cove
 
 ## Evaluation
 
-The rental-email agent is covered by a Python evaluation harness that loads the deployed instructions directly. The current documented suite contains **35 cases, 18 criteria, and 66 meta-tests**. Quality criteria use a 90% target; 12 safety gates require 100% and are never averaged into the quality score.
+The rental-email agent is covered by a Python evaluation harness that loads the deployed instructions directly. The versioned suite includes representative cases, quality and safety criteria, and meta-tests of its scorers. Safety gates remain separate from and are never averaged into the quality score.
 
 The suite uses deterministic and structural checks first, contextual compliance patterns where needed, and model-based judging only for subjective behavior such as tone and responsiveness. Safety gates have their own adversarial tests. See [`evaluation-harness.md`](evaluation-harness.md).
 
@@ -98,5 +98,5 @@ The roles I'm targeting are the ones where someone has to understand a customer'
 | OAuth-protected MCP access and shared role policy | Live — internal operator use |
 | Confirmation, schema, and storage-path gates | Live — applied according to tool and workflow risk |
 | Authenticated human review for document workflows | Live |
-| Rental-agent evaluation harness | Active — 35 cases, 18 criteria, 66 meta-tests |
+| Rental-agent evaluation harness | Active — versioned cases, scorers, safety gates, and meta-tests |
 | Additional specialized roles beyond Pierce and Brett | Deployed — full internal roster intentionally omitted |

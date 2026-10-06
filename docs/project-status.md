@@ -128,7 +128,7 @@ Full detail in [`ai-agent-system.md`](ai-agent-system.md).
 | OAuth-protected MCP access and user-scoped resources | Live — internal operator use |
 | Shared role policy, confirmation gates, write constraints, and storage-path controls | Live — coverage expands with each new tool |
 | Authenticated human review for document workflows | Live |
-| Rental-agent evaluation harness | Active — 35 cases, 18 criteria, 66 meta-tests, 12 safety gates |
+| Rental-agent evaluation harness | Active — versioned cases, scorers, safety gates, and meta-tests |
 | Additional specialized roles beyond Pierce and Brett | Deployed — full internal roster intentionally omitted |
 
 ## Internal operator tooling status

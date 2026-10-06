@@ -2,17 +2,11 @@
 
 The rental-email agent communicates with prospective tenants without a person reviewing every response before it is composed. That makes evaluation a deployment control, not a demo score.
 
-## Current documented suite
+## Versioned evaluation suite
 
-| Measure | Current state |
-|---|---:|
-| Evaluation cases | 35 |
-| Criteria | 18 |
-| Meta-tests of scorers and gates | 66 |
-| Safety gates | 12 at a required 100% |
-| Documented clean cases | 34 of 35 |
+The suite contains representative and adversarial cases, individually reported quality and safety criteria, hard safety release gates, and meta-tests of the scorers themselves. Exact suite counts are intentionally omitted from this public overview because the suite changes as new production patterns and risks are discovered.
 
-The remaining documented failure was traced to an over-specified harness assertion rather than unsafe agent behavior. That distinction is important: the evaluation system can be wrong too, so its rules and scorers need tests of their own.
+One apparent agent failure was traced to an over-specified harness assertion rather than unsafe agent behavior. That distinction is important: the evaluation system can be wrong too, so its rules and scorers need tests of their own.
 
 ## Design principles
 
@@ -22,7 +16,7 @@ The adapter loads the deployed agent instructions directly rather than maintaini
 
 ### Keep quality and safety separate
 
-Quality criteria—such as resolving the correct unit, answering the prospect's question, and preserving the leasing funnel—use a 90% target. Safety criteria—such as fair-housing behavior, invented availability, and required disclosures—are gates at 100%.
+Quality criteria—such as resolving the correct unit, answering the prospect's question, and preserving the leasing funnel—use release thresholds. Safety criteria—such as fair-housing behavior, invented availability, and required disclosures—are hard gates.
 
 A combined score could conceal the failure that matters most. High tone or helpfulness scores do not compensate for a safety violation.
 
@@ -39,7 +33,7 @@ Model judges do not grade safety.
 
 ### Test the tests
 
-The 66 meta-tests feed each scorer known-good and known-bad examples. This has caught patterns that missed ordinary human phrasing, fixture behavior that made a route unreachable, and assertions that punished correct behavior.
+Meta-tests feed each scorer known-good and known-bad examples. This has caught patterns that missed ordinary human phrasing, fixture behavior that made a route unreachable, and assertions that punished correct behavior.
 
 ## What production data changed
 
@@ -66,6 +60,6 @@ This led to a durable rule for the evaluation system: a safety gate must be stri
 - This is development-time evaluation, not continuous production monitoring.
 - The mocked data layer cannot yet reproduce every timeout, stale record, or partial external-system failure.
 - Failure-injection coverage is not yet part of the documented suite.
-- Thirty-five cases are useful for regression detection, not a statistically complete accuracy estimate.
+- The suite is useful for regression detection, not a statistically complete accuracy estimate.
 
 The next maturity step is sampled production monitoring and controlled failure injection while keeping deterministic safety gates as the non-negotiable baseline.
